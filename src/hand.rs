@@ -34,6 +34,35 @@ pub fn get_hand_category(hand_rank: u16) -> HandCategory {
     }
 }
 
+/// Return Card string
+#[inline]
+pub fn get_card(card: usize) -> String {
+    let rank = match card / 4 {
+        0 => "2",
+        1 => "3",
+        2 => "4",
+        3 => "5",
+        4 => "6",
+        5 => "7",
+        6 => "8",
+        7 => "9",
+        8 => "T",
+        9 => "J",
+        10 => "Q",
+        11 => "K",
+        12 => "A",
+        _ => unreachable!(),
+    };
+    let suit = match card % 4 {
+        0 => "c",
+        1 => "d",
+        2 => "h",
+        3 => "s",
+        _ => unreachable!(),
+    };
+    format!("{}{}", rank, suit)
+}
+
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Hand {
     key: u64,
@@ -402,5 +431,15 @@ mod tests {
         let board = "3s3c2d2c2h".parse::<Hand>().unwrap();
         assert_eq!((hand1 + board).evaluate(), (6 << 12) + 1);
         assert_eq!((hand2 + board).evaluate(), (6 << 12) + 0);
+    }
+
+    #[test]
+    fn test_get_card() {
+        assert_eq!(get_card(3), String::from("2s"));
+        assert_eq!(get_card(5), String::from("3d"));
+        assert_eq!(get_card(7), String::from("3s"));
+        assert_eq!(get_card(11), String::from("4s"));
+        assert_eq!(get_card(13), String::from("5d"));
+        assert_eq!(get_card(17), String::from("6d"));
     }
 }
