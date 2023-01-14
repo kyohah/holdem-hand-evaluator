@@ -20,7 +20,7 @@ pub fn enumerate_hand_category(hand: &Hand, dead_cards: &Hand) -> [u32; NUM_HAND
     }
 }
 
-fn compute_alive_cards(mask: u64) -> Vec<usize> {
+pub fn compute_alive_cards(mask: u64) -> Vec<usize> {
     let mut result = Vec::new();
     for i in 0..NUMBER_OF_CARDS {
         if (CARDS[i].1 & mask) == 0 {
